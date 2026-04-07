@@ -3,7 +3,12 @@ package com.turkcell;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InMemoryBankAccountRepository implements BankAccountRepository {
+public class InMemoryBankAccountRepository implements BankAccountRepository { // unutma!! sen burda interface’deki
+                                                                              // kuralları uyguluyorsun implement o
+                                                                              // demek yarın bi gün sadece bankaccount
+                                                                              // repositoryi değiştirerek methodları
+                                                                              // uyguladığın kuralları
+                                                                              // değiştirebilirsin.
 
     private List<BankAccount> accounts = new ArrayList<>();
 

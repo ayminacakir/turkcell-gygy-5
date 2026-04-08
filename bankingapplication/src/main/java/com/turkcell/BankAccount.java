@@ -50,6 +50,6 @@ public class BankAccount {
             this.balance = 0;
             return;
         }
-        this.balance = balance;
+        this.balance = balance; // parametre ile gelen değeri class içindekine ata
     }
 }

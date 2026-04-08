@@ -15,7 +15,7 @@ public class Main {
             System.out.println("4 - Uygulamadan çık");
             System.out.print("Lütfen bir seçim yapın: ");
             int secim = scanner.nextInt();
-            scanner.nextLine();
+            scanner.nextLine(); // enterı alsın diye
 
             if (secim == 1) {
                 System.out.print("Hesap numaranızı girin: ");

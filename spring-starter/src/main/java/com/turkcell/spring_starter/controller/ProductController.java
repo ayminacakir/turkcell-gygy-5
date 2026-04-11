@@ -17,23 +17,23 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RestController
 @RequestMapping("/api/product")
 public class ProductController {
-    //InMemory çalış(değişkenlerle çünkü değişkenler ramde tutulur.)
-    private List<Product> products = new ArrayList<>();
-
+    // InMemory çalış(değişkenlerle çünkü değişkenler ramde tutulur.)
+    private List<Product> productList = new ArrayList<>();
 
     @GetMapping()
     public List<Product> getAllProducts() {
-        return null; // Ürünleri veritabanından çekip döndürecek
+        return productList; // Ürünleri veritabanından çekip döndürecek
     }
 
     @GetMapping("/{id}")
     public Product getProductById(@PathVariable int id) { // detay sayfası için id'ye göre ürün getirmirirz daha
                                                           // detaylıdır burası
-        return null;
+        return productList.stream().filter(i -> i.getId() == id).findFirst().orElse(null);
     }
 
     @PostMapping()
     public void createProduct(@RequestBody Product product) {
+        productList.add(product); // Ürünü veritabanına kaydedecek
     }
 
     @PutMapping("path/{id}")

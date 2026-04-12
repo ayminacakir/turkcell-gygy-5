@@ -31,17 +31,21 @@ public class ProductController {
         return productList.stream().filter(i -> i.getId() == id).findFirst().orElse(null);
     }
 
-    @PostMapping()
+    @PostMapping
     public void createProduct(@RequestBody Product product) {
         productList.add(product); // Ürünü veritabanına kaydedecek
     }
 
-    @PutMapping("path/{id}")
-    public void updateProduct(@PathVariable Product product) {
-
+    @PutMapping
+    public void updateProduct(@RequestBody Product product) {
+        Product productToUpdate = productList.stream().filter(i -> i.getId() == product.getId()).findFirst()
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+        productToUpdate.setName(product.getName());
+        productToUpdate.setPrice(product.getPrice());
     }
 
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable int id) {
+
     }
 }

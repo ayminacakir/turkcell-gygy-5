@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.turkcell.spring_starter.dto.ProductCreatedResponse;
+import com.turkcell.spring_starter.dto.ProductForCreateDto;
 import com.turkcell.spring_starter.model.Product;
 import org.springframework.web.bind.annotation.PutMapping;
 
+// Altın kural: Veritabanı nesneleri requestte de responseda da kullanılamaz.
 @RestController
 @RequestMapping("/api/product")
 public class ProductController {
@@ -22,7 +25,7 @@ public class ProductController {
 
     @GetMapping()
     public List<Product> getAllProducts() {
-        return productList; // Ürünleri veritabanından çekip döndürecek
+        return productList; // Veritabanındaki Product nesnelerini listele.
     }
 
     @GetMapping("/{id}")
@@ -31,9 +34,42 @@ public class ProductController {
         return productList.stream().filter(i -> i.getId() == id).findFirst().orElse(null);
     }
 
+    // Request-Response Pattern =>
+    // Her istek cevap kendine ait bir modele sahip olmak zorunda.Birebir başka bir
+    // istek-cevap çiftiyle aynı içeriğe sahip olabilirler ama birbirlerinin aynısı
+    // olamazlar.
     @PostMapping
-    public void createProduct(@RequestBody Product product) {
-        productList.add(product); // Ürünü veritabanına kaydedecek
+    public ProductCreatedResponse createProduct(@RequestBody ProductForCreateDto productDto) {
+        // Sen dışarodan ProductForCreateDto alıyorsun ama senin veritabanında Product
+        // nesnesi var. O yüzden ProductForCreateDto'yu Product'a çevirmen gerekiyor.
+        if (productDto.getPrice() < 0)
+            throw new RuntimeException("Para 0'dan küçük olamaz.");
+
+        // Transfer -> Manuel Mappıng
+        Product product = new Product();
+        product.setName(productDto.getName());
+        product.setPrice(productDto.getPrice());
+        product.setId(productList.size() + 1); // Id'yi kendimiz atıyoruz çünkü veritabanı yok.
+
+        productList.add(product);
+        // Veritabanına product nesnesini ekle..
+
+        // ProductCreatedResponse => Dışarıya dönmek istediğimiz cevaba ait model.
+        // Entity Nesnesi -> Dto
+        ProductCreatedResponse response = new ProductCreatedResponse();
+        response.setId(product.getId());
+        response.setName(product.getName());
+        response.setPrice(product.getPrice());
+
+        return response; // Dışarıya ProductCreatedResponse dönüyoruz çünkü biz dışarıya Product
+                         // nesnesini
+        // dönmek istemiyoruz.Çünkü Product nesnesi veritabanı nesnesidir ve biz
+        // veritabanı nesnelerini dışarıya dönmek istemiyoruz.
+
+        // Ben controller olarak iş kodu çalıştıramam, ama bunu yapmam gerekli..
+        // İş kodunu çalıştıracak olan yapıya BAĞIMLIYIM.
+        // Bağımlılık Enjeksiyonu -> Dependency Injection
+
     }
 
     @PutMapping
@@ -46,6 +82,6 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable int id) {
-
+        productList.removeIf(i -> i.getId() == id); // Ürünü veritabanından siler
     }
 }

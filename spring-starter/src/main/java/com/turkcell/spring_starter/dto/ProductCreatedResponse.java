@@ -1,7 +1,6 @@
-package com.turkcell.spring_starter.model;
+package com.turkcell.spring_starter.dto;
 
-//Entity, Domain Model,Model => Veritabanı nesnesini koddaki temsilidr.
-public class Product {
+public class ProductCreatedResponse {
     private int id;
     private String name;
     private double price;
@@ -29,4 +28,5 @@ public class Product {
     public void setPrice(double price) {
         this.price = price;
     }
+
 }

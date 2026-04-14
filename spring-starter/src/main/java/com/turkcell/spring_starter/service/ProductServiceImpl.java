@@ -20,7 +20,14 @@ import com.turkcell.spring_starter.model.Product;
 public class ProductServiceImpl {
     private final List<Product> productsInMemory = new ArrayList<>();
 
-    public ProductCreatedResponse create(ProductForCreateDto productForCreateDto) { // bu parametreler
+    public ProductCreatedResponse create(ProductForCreateDto productForCreateDto) {
+
+        // Aynı isimde 2 ürün olamaz
+
+        // Business Rule
+
+        checkIfProductWithSameNameExist(productForCreateDto.getName());
+
         Product product = new Product();
         product.setId(new Random().nextInt(100)); // Veritabanında id otomatik artar, biz burada random atıyoruz.
         product.setName(productForCreateDto.getName());
@@ -39,8 +46,22 @@ public class ProductServiceImpl {
 
         return response;
 
-        // Veritabanı işlemleri için repository kullanılır. Repository, veritabanı
-        // işlemlerini yapar.
+    public void update() {
+        // Aynı iş kuralı..
+        checkIfProductWithSameNameExist("");
+    }
+
+    // İş kuralları -> Kendine has bir classta bulunmalıdır. ->
+    // ProductBusinessRules.java
+    private void checkIfProductWithSameNameExist(String name) {
+        Product productWithSameName = productsInMemory
+                .stream()
+                .filter(product -> product.getName().equals(name))
+                .findFirst()
+                .orElse(null);
+
+        if (productWithSameName != null)
+            throw new RuntimeException("Aynı isimde 2 ürün eklenemez");
     }
 }
 

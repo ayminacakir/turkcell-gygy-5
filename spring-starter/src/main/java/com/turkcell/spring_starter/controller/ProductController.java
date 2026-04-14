@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.turkcell.spring_starter.dto.ProductCreatedResponse;
 import com.turkcell.spring_starter.dto.ProductForCreateDto;
 import com.turkcell.spring_starter.service.ProductServiceImpl;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -15,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/api/product")
 public class ProductController {
 
-    // private final ProductServiceImpl prouctServiceImple = new ProductServiceImpl
-    // YANLIŞ
+    // private final ProductServiceImpl prouctServiceImple = new ProductServiceImpl.
+    // (YANLIŞ)
 
     private final ProductServiceImpl productServiceImpl; // Bağımlılık Enjeksiyonu -> Dependency Injection
 
@@ -24,10 +27,11 @@ public class ProductController {
         this.productServiceImpl = productServiceImpl;
     }
 
-    @PostMapping("path")
-    public ProductCreatedResponse create(@RequestBody ProductForCreateDto productForCreateDto) {
+    @PostMapping
+    public ProductCreatedResponse create(@RequestBody @Valid ProductForCreateDto productForCreateDto) {
 
-        return this.productServiceImpl.create(productForCreateDto);
+        return this.productServiceImpl.create(productForCreateDto); // Controller, service'i çağırır ve service'in
+                                                                    // döndürdüğü değeri return eder.
     }
 
 }

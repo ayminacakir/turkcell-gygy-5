@@ -154,8 +154,7 @@ ALTER TABLE BookCopy ALTER COLUMN Status SET DEFAULT 'Available';
 
 SELECT * FROM Fine WHERE IsPaid = FALSE;
 
-
-
+SELECT * FROM users order by age asc;
 
 
 

@@ -2,75 +2,114 @@ package com.turkcell.spring_starter.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.turkcell.spring_starter.dto.ProductCreatedResponse;
-import com.turkcell.spring_starter.dto.ProductForCreateDto;
-import com.turkcell.spring_starter.model.Product;
+import com.turkcell.spring_starter.dto.*;
+import com.turkcell.spring_starter.entity.Category;
+import com.turkcell.spring_starter.entity.Product;
+import com.turkcell.spring_starter.repository.CategoryRepository;
+import com.turkcell.spring_starter.repository.ProductRepository;
 
-//Service => İş katmanını temsil eder. Veritabanı işlemleri, iş kuralları gibi işlemler burada yapılır.
-//Implementation 
-//ProductService => Interface
-// ProductServiceImpl => Class
-
-@Service // IOC ye bu tütü eklediniğinde bu classı newleyebilirsin demektir. Spring, bu
-         // classı newler ve onun üzerinden istekleri karşılar.
+@Service
 public class ProductServiceImpl {
-    private final List<Product> productsInMemory = new ArrayList<>();
 
-    public ProductCreatedResponse create(ProductForCreateDto productForCreateDto) {
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
-        // Aynı isimde 2 ürün olamaz
+    public ProductServiceImpl(ProductRepository productRepository,
+            CategoryRepository categoryRepository) {
+        this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
+    }
 
-        // Business Rule
-
-        checkIfProductWithSameNameExist(productForCreateDto.getName());
+    public CreatedProductResponse create(CreateProductRequest request) {
 
         Product product = new Product();
-        product.setId(new Random().nextInt(100)); // Veritabanında id otomatik artar, biz burada random atıyoruz.
-        product.setName(productForCreateDto.getName());
-        product.setPrice(productForCreateDto.getPrice());
 
-        productsInMemory.add(product);
+        product.setName(request.getName());
+        product.setDescription(request.getDescription());
 
-        ProductCreatedResponse response = new ProductCreatedResponse(); // neden response oluşturduk? Çünkü controllerda
-                                                                        // ne dönüceğini belirtmemiz gerekiyor.
-                                                                        // Controllerda product dönebiliriz ama biz
-                                                                        // productCreatedResponse dönmek istiyoruz. O
-                                                                        // yüzden response oluşturduk.
+        Category category = categoryRepository.findById(request.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Kategori bulunamadı"));
+
+        product.setCategory(category);
+
+        product = productRepository.save(product);
+
+        CreatedProductResponse response = new CreatedProductResponse();
         response.setId(product.getId());
         response.setName(product.getName());
-        response.setPrice(product.getPrice());
+        response.setDescription(product.getDescription());
+        response.setCategoryName(product.getCategory().getName());
 
         return response;
     }
 
-    public void update() {
-        // Aynı iş kuralı..
-        checkIfProductWithSameNameExist("");
+    public List<ListProductResponse> getAll() {
+
+        List<Product> products = productRepository.findAll();
+
+        List<ListProductResponse> responseList = new ArrayList<>();
+
+        for (Product product : products) {
+            ListProductResponse response = new ListProductResponse();
+
+            response.setId(product.getId());
+            response.setName(product.getName());
+            response.setDescription(product.getDescription());
+            response.setCategoryName(product.getCategory().getName());
+
+            responseList.add(response);
+        }
+
+        return responseList;
     }
 
-    // İş kuralları -> Kendine has bir classta bulunmalıdır. ->
-    // ProductBusinessRules.java
-    private void checkIfProductWithSameNameExist(String name) {
-        Product productWithSameName = productsInMemory
-                .stream()
-                .filter(product -> product.getName().equals(name))
-                .findFirst()
-                .orElse(null);
+    public ListProductResponse getById(UUID id) {
 
-        if (productWithSameName != null)
-            throw new RuntimeException("Aynı isimde 2 ürün eklenemez");
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ürün bulunamadı"));
+
+        ListProductResponse response = new ListProductResponse();
+        response.setId(product.getId());
+        response.setName(product.getName());
+        response.setDescription(product.getDescription());
+        response.setCategoryName(product.getCategory().getName());
+
+        return response;
+    }
+
+    public ListProductResponse update(UUID id, UpdateProductRequest request) {
+
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ürün bulunamadı"));
+
+        product.setName(request.getName());
+        product.setDescription(request.getDescription());
+
+        Category category = categoryRepository.findById(request.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Kategori bulunamadı"));
+
+        product.setCategory(category);
+
+        product = productRepository.save(product);
+
+        ListProductResponse response = new ListProductResponse();
+        response.setId(product.getId());
+        response.setName(product.getName());
+        response.setDescription(product.getDescription());
+        response.setCategoryName(product.getCategory().getName());
+
+        return response;
+    }
+
+    public void delete(UUID id) {
+
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ürün bulunamadı"));
+
+        productRepository.delete(product);
     }
 }
-
-// NOT: Controllerı service i çağırıcak ve service ne dönüyorsa onu return
-// edicek. Service de repository i çağıracak ve repository ne dönüyorsa onu
-// return edecek.
-
-// IProductRepository -> ProductRepository
-// ProductRepository <Product> -> Spring auto-generated.
-
-// Spring IoC Nedir? Bean,Service nedir?

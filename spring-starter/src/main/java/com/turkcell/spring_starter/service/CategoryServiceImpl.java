@@ -27,6 +27,8 @@ public class CategoryServiceImpl {
         // entity id'e sahipse update
         // entity id'si null ise insert
 
+        // Mapleme(Dto -> Entity, Entity -> Dto) işlemi yapacağız. // mapstruct
+        // kullanacağız.
         Category category = new Category();
         category.setName(createCategoryRequest.getName());
 
@@ -42,7 +44,8 @@ public class CategoryServiceImpl {
     public List<ListCategoryResponse> getAll() {
         List<Category> categories = categoryRepository.findAll();
 
-        // TODO: Refactor
+        // liste halinde mapleme işlemi yapacağız. // mapleme işlemi
+        // için mapstruct kullanacağız.
         List<ListCategoryResponse> responseList = new ArrayList<>();
 
         for (Category category : categories) {

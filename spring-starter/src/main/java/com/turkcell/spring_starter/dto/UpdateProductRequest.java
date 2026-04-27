@@ -1,5 +1,6 @@
 package com.turkcell.spring_starter.dto;
 
+import java.util.Set;
 import java.util.UUID;
 
 public class UpdateProductRequest {
@@ -7,6 +8,7 @@ public class UpdateProductRequest {
     private String name;
     private String description;
     private UUID categoryId;
+    private Set<UUID> tagIds;
 
     public String getName() {
         return name;
@@ -14,6 +16,14 @@ public class UpdateProductRequest {
 
     public String getDescription() {
         return description;
+    }
+
+    public Set<UUID> getTagIds() {
+        return tagIds;
+    }
+
+    public void setTagIds(Set<UUID> tagIds) {
+        this.tagIds = tagIds;
     }
 
     public UUID getCategoryId() {

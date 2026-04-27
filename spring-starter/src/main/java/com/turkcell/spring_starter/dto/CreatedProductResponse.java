@@ -1,5 +1,6 @@
 package com.turkcell.spring_starter.dto;
 
+import java.util.List;
 import java.util.UUID;
 
 public class CreatedProductResponse {
@@ -8,6 +9,7 @@ public class CreatedProductResponse {
     private String name;
     private String description;
     private String categoryName;
+    private List<String> tagNames;
 
     public UUID getId() {
         return id;
@@ -39,5 +41,13 @@ public class CreatedProductResponse {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public List<String> getTagNames() {
+        return tagNames;
+    }
+
+    public void setTagNames(List<String> tagNames) {
+        this.tagNames = tagNames;
     }
 }

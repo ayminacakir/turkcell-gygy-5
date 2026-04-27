@@ -1,5 +1,6 @@
 package com.turkcell.spring_starter.dto;
 
+import java.util.Set;
 import java.util.UUID;
 
 public class CreateProductRequest {
@@ -9,6 +10,9 @@ public class CreateProductRequest {
 
     // Product bir kategoriye bağlı olduğu için categoryId alıyoruz
     private UUID categoryId;
+
+    // Kullanıcı ürün oluştururken tag id'lerini gönderecek.
+    private Set<UUID> tagIds;
 
     public String getName() {
         return name;
@@ -32,5 +36,13 @@ public class CreateProductRequest {
 
     public void setCategoryId(UUID categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public Set<UUID> getTagIds() {
+        return tagIds;
+    }
+
+    public void setTagIds(Set<UUID> tagIds) {
+        this.tagIds = tagIds;
     }
 }

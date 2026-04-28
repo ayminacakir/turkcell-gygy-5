@@ -1,6 +1,7 @@
 package com.turkcell.spring_starter.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.turkcell.spring_starter.dto.CreateCategoryRequest;
@@ -19,6 +20,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+// Bu projedeki tüm entityler için tüm CRUD işlemleri kodlanmalı.
+// GET-GET BY ID-ADD-UPDATE-DELETE
+
+// Kütüphane sisteminizi code-first oluşturun.
+
+// JPQL  
 
 @RestController
 @RequestMapping("/api/categories")
@@ -55,6 +62,11 @@ public class CategoriesController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable UUID id) {
         categoryServiceImpl.delete(id);
+    }
+
+    @GetMapping("search")
+    public List<ListCategoryResponse> getMethodName(@RequestParam String query) {
+        return categoryServiceImpl.search(query);
     }
 
 }

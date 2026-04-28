@@ -43,10 +43,12 @@ public class UserServiceImpl {
                 .orElseThrow(() -> new RuntimeException(errorMessage)); // Optional'dan gelen kullanıcıyı al, yoksa hata
                                                                         // fırlat.
 
-        // Kullanıcı var gibi davran
+        // Hata gelmediğine göre Kullanıcı var gibi davran
         boolean passwordMatch = this.passwordEncoder.matches(loginRequest.getPassword(), user.getPassword());
         if (!passwordMatch)
-            throw new RuntimeException(errorMessage);
+            throw new RuntimeException(errorMessage); // ÖNEMLİİ !! emailde yanlış olsa şifrede yanlış olsa aynı hata
+                                                      // mesajı gelsin. Çünkü saldırgan hangi bilgilerin yanlış olduğunu
+                                                      // bilmemeli. ÖNEMLİİ
 
         // Bu e-posta ile bir kayıt var.
 

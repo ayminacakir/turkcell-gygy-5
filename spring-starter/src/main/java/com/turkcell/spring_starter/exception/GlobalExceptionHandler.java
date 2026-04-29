@@ -16,8 +16,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleBusinessException(BusinessException exception) {
-        return exception.getMessage();
+    public ErrorResponse handleBusinessException(BusinessException exception) {
+        return new ErrorResponse(exception.getMessage(), 400);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleNotFoundException(NotFoundException exception) {
+        return new ErrorResponse(exception.getMessage(), 404);
     }
 
     @ExceptionHandler({ MethodArgumentNotValidException.class })
@@ -33,16 +39,22 @@ public class GlobalExceptionHandler {
         return errors;
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String handleNotFoundException(NotFoundException exception) {
-        return exception.getMessage();
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponse handleUnauthorizedException(UnauthorizedException exception) {
+        return new ErrorResponse(exception.getMessage(), 401);
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleConflictException(ConflictException exception) {
+        return new ErrorResponse(exception.getMessage(), 409);
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public String handleException(Exception exception) {
-        return "Beklenmeyen bir hata oluştu.";
+    public ErrorResponse handleException(Exception exception) {
+        return new ErrorResponse("Beklenmeyen bir hata oluştu.", 500);
     }
 }
 

@@ -10,33 +10,33 @@ import com.turkcell.library_cqrs.persistence.repositories.ReservationRepository;
 
 @Component
 public class GetAllReservationsQueryHandler
-        implements QueryHandler<GetAllReservationsQuery, List<ListReservationResponse>> {
+                implements QueryHandler<GetAllReservationsQuery, List<ListReservationResponse>> {
 
-    private final ReservationRepository reservationRepository;
+        private final ReservationRepository reservationRepository;
 
-    public GetAllReservationsQueryHandler(ReservationRepository reservationRepository) {
-        this.reservationRepository = reservationRepository;
-    }
+        public GetAllReservationsQueryHandler(ReservationRepository reservationRepository) {
+                this.reservationRepository = reservationRepository;
+        }
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<ListReservationResponse> handle(GetAllReservationsQuery query) {
+        @Override
+        @Transactional(readOnly = true)
+        public List<ListReservationResponse> handle(GetAllReservationsQuery query) {
 
-        return reservationRepository.findAll()
-                .stream()
-                .map(reservation -> new ListReservationResponse(
-                        reservation.getId(),
+                return reservationRepository.findAll()
+                                .stream()
+                                .map(reservation -> new ListReservationResponse(
+                                                reservation.getId(),
 
-                        reservation.getBook().getId(),
-                        reservation.getBook().getTitle(),
+                                                reservation.getBook().getId(),
+                                                reservation.getBook().getTitle(),
 
-                        reservation.getStudent().getId(),
-                        reservation.getStudent().getFirstName()
-                                + " "
-                                + reservation.getStudent().getLastName(),
+                                                reservation.getStudent().getId(),
+                                                reservation.getStudent().getFirstName()
+                                                                + " "
+                                                                + reservation.getStudent().getLastName(),
 
-                        reservation.getReservationDate(),
-                        reservation.getStatus()))
-                .toList();
-    }
+                                                reservation.getReservationDate(),
+                                                reservation.getStatus()))
+                                .toList();
+        }
 }

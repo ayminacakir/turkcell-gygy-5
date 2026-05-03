@@ -5,8 +5,10 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.turkcell.library_cqrs.domain.entities.BookCopy;
+import com.turkcell.library_cqrs.domain.entities.Book;
 
 @Repository
-public interface BookCopyRepository extends JpaRepository<BookCopy, UUID> {
+public interface BookRepository extends JpaRepository<Book, UUID> {
+
+    boolean existsByIsbn(String isbn);
 }

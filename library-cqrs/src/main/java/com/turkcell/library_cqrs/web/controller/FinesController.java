@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.turkcell.library_cqrs.application.features.category.query.getall.GetAllFinesQuery;
-import com.turkcell.library_cqrs.application.features.category.query.getall.ListFineResponse;
+import com.turkcell.library_cqrs.application.features.fine.query.GetAllFinesQuery;
+import com.turkcell.library_cqrs.application.features.fine.query.ListFineResponse;
 import com.turkcell.library_cqrs.core.mediator.Mediator;
 
 @RestController

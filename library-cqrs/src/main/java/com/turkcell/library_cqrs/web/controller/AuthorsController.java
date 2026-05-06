@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.turkcell.library_cqrs.application.features.category.command.create.CreateAuthorCommand;
-import com.turkcell.library_cqrs.application.features.category.query.getall.GetAllAuthorsQuery;
-import com.turkcell.library_cqrs.application.features.category.query.getall.ListAuthorResponse;
+import com.turkcell.library_cqrs.application.features.author.command.CreateAuthorCommand;
+import com.turkcell.library_cqrs.application.features.author.query.GetAllAuthorsQuery;
+import com.turkcell.library_cqrs.application.features.author.query.ListAuthorResponse;
 import com.turkcell.library_cqrs.core.mediator.Mediator;
 
 @RestController

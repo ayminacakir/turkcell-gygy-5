@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.turkcell.library_cqrs.application.features.category.command.create.CreateStaffCommand;
-import com.turkcell.library_cqrs.application.features.category.query.getall.GetAllStaffQuery;
-import com.turkcell.library_cqrs.application.features.category.query.getall.ListStaffResponse;
+import com.turkcell.library_cqrs.application.features.staff.command.CreateStaffCommand;
+import com.turkcell.library_cqrs.application.features.staff.query.GetAllStaffQuery;
+import com.turkcell.library_cqrs.application.features.staff.query.ListStaffResponse;
 import com.turkcell.library_cqrs.core.mediator.Mediator;
 
 @RestController

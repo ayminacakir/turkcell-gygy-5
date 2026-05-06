@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.turkcell.library_cqrs.application.features.category.command.create.CreateReservationCommand;
-import com.turkcell.library_cqrs.application.features.category.query.getall.GetAllReservationsQuery;
-import com.turkcell.library_cqrs.application.features.category.query.getall.ListReservationResponse;
+import com.turkcell.library_cqrs.application.features.reservation.command.CreateReservationCommand;
+import com.turkcell.library_cqrs.application.features.reservation.query.GetAllReservationsQuery;
+import com.turkcell.library_cqrs.application.features.reservation.query.ListReservationResponse;
 import com.turkcell.library_cqrs.core.mediator.Mediator;
 
 @RestController

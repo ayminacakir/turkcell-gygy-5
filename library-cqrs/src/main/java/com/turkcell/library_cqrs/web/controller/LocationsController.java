@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.turkcell.library_cqrs.application.features.category.command.create.CreateLocationCommand;
-import com.turkcell.library_cqrs.application.features.category.query.getall.GetAllLocationsQuery;
-import com.turkcell.library_cqrs.application.features.category.query.getall.ListLocationResponse;
+import com.turkcell.library_cqrs.application.features.location.command.CreateLocationCommand;
+import com.turkcell.library_cqrs.application.features.location.query.GetAllLocationsQuery;
+import com.turkcell.library_cqrs.application.features.location.query.ListLocationResponse;
 import com.turkcell.library_cqrs.core.mediator.Mediator;
 
 @RestController

@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.turkcell.library_cqrs.application.features.category.command.create.CreateBookCopyCommand;
-import com.turkcell.library_cqrs.application.features.category.query.getall.GetAllBookCopiesQuery;
-import com.turkcell.library_cqrs.application.features.category.query.getall.ListBookCopyResponse;
+import com.turkcell.library_cqrs.application.features.bookcopy.command.CreateBookCopyCommand;
+import com.turkcell.library_cqrs.application.features.bookcopy.query.GetAllBookCopiesQuery;
+import com.turkcell.library_cqrs.application.features.bookcopy.query.ListBookCopyResponse;
 import com.turkcell.library_cqrs.core.mediator.Mediator;
 
 @RestController

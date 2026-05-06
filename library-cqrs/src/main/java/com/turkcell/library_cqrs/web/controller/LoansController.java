@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.turkcell.library_cqrs.application.features.category.command.create.BorrowBookCommand;
-import com.turkcell.library_cqrs.application.features.category.command.create.ReturnBookCommand;
+import com.turkcell.library_cqrs.application.features.book.command.BorrowBookCommand;
+import com.turkcell.library_cqrs.application.features.book.query.ReturnBookCommand;
 import com.turkcell.library_cqrs.core.mediator.Mediator;
 
 @RestController

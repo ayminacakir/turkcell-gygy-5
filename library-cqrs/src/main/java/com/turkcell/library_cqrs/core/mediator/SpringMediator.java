@@ -62,10 +62,41 @@ public class SpringMediator implements Mediator {
         throw new IllegalStateException("Handler bulunamadı: " + requestType.getSimpleName());
     }
 
-    private <R> R invokePipeline(Object request, RequestHandlerDelegate<R> handlerInvocation) {
+    private <R> R invokePipeline(Object request, RequestHandlerDelegate<R> handlerInvocation) { // bu metot mantığı
+                                                                                                // anlatıyor: Elimizde
+                                                                                                // bir request var ve bu
+                                                                                                // request'i işleyecek
+                                                                                                // bir handler var.
+                                                                                                // Ancak, handler'ı
+                                                                                                // doğrudan çağırmak
+                                                                                                // yerine, önce
+                                                                                                // pipeline'daki tüm
+                                                                                                // davranışları
+                                                                                                // (behaviors) uygulamak
+                                                                                                // istiyoruz. Bu
+                                                                                                // davranışlar, örneğin
+                                                                                                // yetkilendirme,
+                                                                                                // loglama veya
+                                                                                                // performans ölçümü
+                                                                                                // gibi ortak işlemleri
+                                                                                                // içerebilir.
+                                                                                                // invokePipeline
+                                                                                                // metodu, bu
+                                                                                                // davranışları sırayla
+                                                                                                // uygular ve sonunda
+                                                                                                // gerçek handler'ı
+                                                                                                // çağırır. Böylece, her
+                                                                                                // request için belirli
+                                                                                                // işlemleri otomatik
+                                                                                                // olarak
+                                                                                                // gerçekleştirebiliriz.
         RequestHandlerDelegate<R> next = handlerInvocation;
 
-        for (int i = behaviors.size() - 1; i >= 0; i--) {
+        for (int i = behaviors.size() - 1; i >= 0; i--) { // neden tersten gidiyoruz: Çünkü davranışları sırayla
+                                                          // uygulamak istiyoruz. İlk olarak, handler'ı çağıracağız,
+                                                          // sonra en son davranışı, sonra sondan bir önceki davranışı
+                                                          // ve böyle devam edeceğiz. Bu şekilde, davranışlar doğru
+                                                          // sırayla uygulanır.
 
             PipelineBehavior behavior = behaviors.get(i);
             if (!behavior.supports(request)) {
@@ -77,3 +108,12 @@ public class SpringMediator implements Mediator {
         return next.invoke();
     }
 }
+// Hangi command/query -> hangi handler? Handler'ları gez, komutla/query ile
+// uyuşanı dön. bu fonksiyon şunu anlatıyor: Elimizde bir command veya query
+// var, şimdi bu command veya query'yi hangi handler'ın işleyeceğini bulmamız
+// gerekiyor. Spring'in ApplicationContext'ini kullanarak, belirli bir handler
+// arayacağız. Öncelikle, tüm handler'ları alacağız ve her birinin hangi tür
+// komutları veya sorguları işlediğine bakacağız. Eğer handler'ın işlediği komut
+// veya sorgu türü, bizim gönderdiğimiz komut veya sorgu türüyle eşleşiyorsa, o
+// handler'ı döndüreceğiz. Eğer hiçbir handler bulunamazsa, bir istisna
+// fırlatacağız.

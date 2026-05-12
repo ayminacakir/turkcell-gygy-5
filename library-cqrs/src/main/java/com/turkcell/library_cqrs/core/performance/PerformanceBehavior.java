@@ -28,7 +28,7 @@ public class PerformanceBehavior implements PipelineBehavior {
             return next.invoke();
         } finally {
 
-            long endTime = System.currentTimeMillis();
+            long endTime = System.currentTimeMillis();// şu anki zamanı milisaniye cinsinden verir.
 
             long elapsedTime = endTime - startTime;// Toplam geçen süre.
 

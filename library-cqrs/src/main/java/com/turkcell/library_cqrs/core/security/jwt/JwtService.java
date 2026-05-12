@@ -36,9 +36,10 @@ public class JwtService {
     }
 
     public String generate(UUID userId, String email) { // Kullanıcı için JWT token üretir
-        Instant now = Instant.now();
+        Instant now = Instant.now();// Şu anki zamanı alır. Token'ın ne zaman oluşturulduğunu ve ne zaman geçersiz
+                                    // olacağını belirlemek için kullanılır.
 
-        return Jwts.builder()
+        return Jwts.builder() //
                 .issuer(jwtProperties.getIssuer())
                 .subject(userId.toString())
                 .claim("email", email)

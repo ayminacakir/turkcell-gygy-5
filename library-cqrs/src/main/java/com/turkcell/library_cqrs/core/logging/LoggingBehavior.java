@@ -12,7 +12,7 @@ import tools.jackson.databind.ObjectMapper;
 @Component
 @Order(20)
 public class LoggingBehavior implements PipelineBehavior {
-    private final ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;// ObjectMapper nesneleri JSON string'e çevirmek için kullanılır.
 
     public LoggingBehavior(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;

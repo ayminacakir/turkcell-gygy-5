@@ -20,6 +20,8 @@ public class User {
     private String email;
     @Column(name = "password", nullable = false)
     private String password;
+    @Column(name = "roles", nullable = false)
+    private String roles; // Kullanıcının rollerini tutmak için bir alan ekleyelim.
 
     public UUID getId() {
         return id;
@@ -43,6 +45,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 
 }

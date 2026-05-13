@@ -62,8 +62,7 @@ public class SpringMediator implements Mediator {
         throw new IllegalStateException("Handler bulunamadı: " + requestType.getSimpleName());
     }
 
-    private <R> R invokePipeline(Object request, RequestHandlerDelegate<R> handlerInvocation) { // bu metot mantığı
-                                                                                                // anlatıyor: Elimizde
+    private <R> R invokePipeline(Object request, RequestHandlerDelegate<R> handlerInvocation) { // Elimizde
                                                                                                 // bir request var ve bu
                                                                                                 // request'i işleyecek
                                                                                                 // bir handler var.

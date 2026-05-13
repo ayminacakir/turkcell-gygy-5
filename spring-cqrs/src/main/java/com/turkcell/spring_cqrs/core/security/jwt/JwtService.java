@@ -1,7 +1,9 @@
 package com.turkcell.spring_cqrs.core.security.jwt;
 
 import java.time.Instant;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -28,13 +30,13 @@ public class JwtService {
         this.signingKey = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generate(UUID userId, String email) {
+    public String generate(UUID userId, String email, List<String> roles) {
         Instant now = Instant.now();
         return Jwts.builder()
                 .issuer(this.jwtProperties.getIssuer())
                 .subject(userId.toString())
                 .claim("email", email)
-                .claim("deneme", "deneme")
+                .claim("roles", roles)
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(now.plusSeconds(this.jwtProperties.getExpirationInSeconds())))
                 .signWith(this.signingKey)
@@ -50,6 +52,19 @@ public class JwtService {
 
     public String extractEmail(String token) {
         return extractClaim(token, claims -> claims.get("email", String.class));
+    }
+
+    // JWT payload içindeki roles claim'ini okur.
+    public List<String> extractRoles(String token) {
+        List<?> roles = extractClaim(token, claims -> claims.get("roles", List.class));
+
+        if (roles == null) {
+            return Collections.emptyList();
+        }
+
+        return roles.stream()
+                .map(Object::toString)
+                .toList();
     }
 
     public boolean isTokenValid(String token) {

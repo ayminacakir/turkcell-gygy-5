@@ -35,10 +35,10 @@ public class JwtAuthFilter extends OncePerRequestFilter { // OncePerRequestFilte
         // response -> response'ın o ana kadarki oluşan halini
         // filterChain -> zincirin kendisi
         String jwtHeader = request.getHeader("Authorization");// request.getHeader("Authorization") ile frontend'den
-                                                              // gelen token header'ı alınır.WT genelde "Bearer token"
+                                                              // gelen token header'ı alınır.JWT genelde "Bearer token"
                                                               // formatında gönderilir.
 
-        if (jwtHeader != null) {
+        if (jwtHeader != null && jwtHeader.startsWith("Bearer ")) {
             String token = jwtHeader.substring(7); // substring(7) ile "Bearer " kısmı atılır ve sadece token elde
                                                    // edilir
 
@@ -48,11 +48,11 @@ public class JwtAuthFilter extends OncePerRequestFilter { // OncePerRequestFilte
                     // Kullanıcıyı sisteme tanıt..
                     String userId = jwtService.extractUserId(token);
                     String email = jwtService.extractEmail(token);
-                    List<String> roles = Collections.EMPTY_LIST; // TODO: Implement
+                    List<String> roles = jwtService.extractRoles(token);
                     userContext.setUser(userId, email, roles);
                 }
             } catch (Exception e) {
-                // SecurityContextHolder.Clear();
+                userContext.clear();
             }
         }
 

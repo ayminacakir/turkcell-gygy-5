@@ -19,6 +19,10 @@ public class Category {
     @Column(name = "id")
     private UUID id;
 
+    public Category(String name) {
+        this.name = name;
+    }
+
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 

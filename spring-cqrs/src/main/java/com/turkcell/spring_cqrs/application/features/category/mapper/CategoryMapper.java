@@ -10,9 +10,12 @@ import com.turkcell.spring_cqrs.domain.Category;
 @Component
 public class CategoryMapper {
     public Category categoryFromCreateCommand(CreateCategoryCommand command) {
-        Category category = new Category();
-        category.setName(command.name());
-        return category;
+        /*
+         * Category category = new Category();
+         * category.setName(command.name());
+         * return category;
+         */
+        return new Category(command.name()); // inline yaptım(tek satıra indirdim.)
     }
 
     public CreatedCategoryResponse createdCategoryResponseFromCategory(Category category) {

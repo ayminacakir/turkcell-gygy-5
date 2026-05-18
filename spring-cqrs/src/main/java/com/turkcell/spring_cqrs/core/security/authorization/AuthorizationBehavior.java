@@ -21,7 +21,8 @@ public class AuthorizationBehavior implements PipelineBehavior {
     }
 
     @Override
-    public boolean supports(Object request) {
+    public boolean supports(Object request) { // bu behavior'ın hangi request'lerde çalışacağını belirler. Sadece
+                                              // AuthorizableRequest türündeki request'lerde çalışır.
         return request instanceof AuthorizableRequest;
     }
 
